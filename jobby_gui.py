@@ -11,7 +11,7 @@ class MultiSelectDropdown(ttk.Frame):
 
     def __init__(self, parent, options, colors, default_all=True, **kwargs):
         super().__init__(parent, style="App.TFrame", **kwargs)
-        self._options = options
+        self._choices = options
         self._vars = {opt: tk.BooleanVar(value=default_all) for opt in options}
         self._popup = None
         self._colors = colors
@@ -23,7 +23,7 @@ class MultiSelectDropdown(ttk.Frame):
 
     def _summary(self):
         sel = [o for o, v in self._vars.items() if v.get()]
-        n, tot = len(sel), len(self._options)
+        n, tot = len(sel), len(self._choices)
         if n == tot:
             return f"Tutti ({tot})  ▾"
         if n == 0:
@@ -46,22 +46,6 @@ class MultiSelectDropdown(ttk.Frame):
 
         inner = tk.Frame(popup, background=self._colors["panel"], padx=12, pady=8)
         inner.pack(fill=tk.BOTH, expand=True, padx=1, pady=1)
-
-        for opt in self._options:
-            tk.Checkbutton(
-                inner,
-                text=opt,
-                variable=self._vars[opt],
-                background=self._colors["panel"],
-                foreground=self._colors["text"],
-                activebackground="#F9FAFB",
-                selectcolor="#F3F4F6",
-                font=("Segoe UI", 10),
-                anchor="w",
-                cursor="hand2",
-            ).pack(fill=tk.X, pady=1)
-
-        ttk.Separator(inner, orient="horizontal").pack(fill=tk.X, pady=(6, 4))
 
         btn_row = tk.Frame(inner, background=self._colors["panel"])
         btn_row.pack(fill=tk.X)
@@ -87,6 +71,22 @@ class MultiSelectDropdown(ttk.Frame):
             background=self._colors["accent"], foreground="#FFFFFF",
             relief="flat", padx=10, pady=3, cursor="hand2", font=("Segoe UI", 9, "bold"),
         ).pack(side=tk.RIGHT)
+
+        ttk.Separator(inner, orient="horizontal").pack(fill=tk.X, pady=(6, 4))
+
+        for opt in self._choices:
+            tk.Checkbutton(
+                inner,
+                text=opt,
+                variable=self._vars[opt],
+                background=self._colors["panel"],
+                foreground=self._colors["text"],
+                activebackground="#F9FAFB",
+                selectcolor="#F3F4F6",
+                font=("Segoe UI", 10),
+                anchor="w",
+                cursor="hand2",
+            ).pack(fill=tk.X, pady=1)
 
         popup.update_idletasks()
         bx = self._btn.winfo_rootx()
@@ -120,7 +120,7 @@ class ConfigurazioneGUI:
             "Stage": "internship",
         }
         self.job_type = tk.StringVar(value="Tempo pieno")
-        self.verbose = tk.StringVar(value=2)
+        self.verbose = tk.StringVar(value="2 – Tutti i log")
         self.distance = tk.StringVar(value=50)
         self.is_remote = tk.BooleanVar(value=False)
 
@@ -262,6 +262,8 @@ class ConfigurazioneGUI:
             ("Paese per Indeed", self.country_indeed, "entry"),
             ("Tipo di lavoro", self.job_type, "job_type"),
             ("Verbosità", self.verbose, "verbose"),
+            # # aggiungo riga vuota per inserire una descrizione del campo "verbose"
+            # None,
             ("Distanza (km)", self.distance, "entry"),
             ("Solo remoto", self.is_remote, "check"),
         ]
@@ -279,15 +281,11 @@ class ConfigurazioneGUI:
             elif kind == "verbose":
                 ttk.Combobox(
                     adv_frame, textvariable=var,
-                    values=["0", "1", "2"],
+                    values=["0 – Errori", "1 – Avvisi", "2 – Tutti i log"],
                     state="readonly",
                 ).grid(row=i, column=1, sticky="ew", pady=5, padx=6)
             elif kind == "check":
                 ttk.Checkbutton(adv_frame, variable=var).grid(row=i, column=1, sticky=tk.W, pady=5, padx=6)
-
-        ttk.Label(
-            adv_frame, text="0=errori  1=avvisi  2=tutti i log", style="Muted.TLabel"
-        ).grid(row=5, column=1, sticky=tk.W, padx=6, pady=(0, 4))
 
         # ── Pulsanti ──────────────────────────────────────────────────────────
         btn_frame = ttk.Frame(main, style="App.TFrame")
@@ -330,7 +328,7 @@ class ConfigurazioneGUI:
             "days_old": int(self.days_old.get()),
             "country_indeed": self.country_indeed.get(),
             "job_type": self.job_type_map.get(self.job_type.get(), self.job_type.get()),
-            "verbose": int(self.verbose.get()),
+            "verbose": int(self.verbose.get()[0]),
             "distance": int(self.distance.get()),
             "is_remote": self.is_remote.get(),
             "site_name": siti,

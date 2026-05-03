@@ -5,6 +5,7 @@
 ##########################################################
 
 import os
+import traceback
 import tkinter as tk
 from tkinter import messagebox
 
@@ -87,4 +88,4 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as exc:
-        _show_message("Errore Jobby", f"Si e verificato un errore:\n{exc}", is_error=True)
+        _show_message("Errore Jobby", f"Si e verificato un errore:\n{exc}\n\n{traceback.format_exc()}", is_error=True)
