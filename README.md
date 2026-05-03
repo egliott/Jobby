@@ -1,6 +1,6 @@
 # Jobby
 
-**Jobby** is a Windows desktop app that aggregates job listings from multiple platforms into a single Excel file — no browser, no copy-paste, just results.
+**Jobby** is a Windows desktop app that aggregates job listings from multiple platforms into a single Excel file. Ideated for who in not able to code.
 
 Built on top of [JobSpy](https://github.com/Bunsly/JobSpy).
 
@@ -12,7 +12,7 @@ Built on top of [JobSpy](https://github.com/Bunsly/JobSpy).
 - Run multiple search terms in one go
 - Filter by location, job type, recency, remote, and distance
 - Export everything to a single `.xlsx` file
-- Clean GUI — no terminal needed
+- Clean GUI — without terminal
 
 ---
 
