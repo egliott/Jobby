@@ -1,0 +1,15 @@
+# Ambiente virtuale Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Variabili d'ambiente e segreti
+.env
+config_local.py
+
+# Output e file temporanei
+*.log
+dist/
+build/
+*.spec
