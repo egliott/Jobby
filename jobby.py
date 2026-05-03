@@ -1,9 +1,3 @@
-############# NON CANCELLARE QUESTI COMMENTI #############
-# env: conda activate jobby
-# cd "C:\Users\nergh\Desktop\DEV job\jobby\Actual jobby"
-# pyinstaller jobby.py --noconsole --name Jobby --onefile --clean --noconfirm --exclude-module polars --exclude-module matplotlib --exclude-module PyQt5 --exclude-module PyQt5-sip --exclude-module qtpy --exclude-module pyside2 --exclude-module jupyterlab --exclude-module jupyter --exclude-module jupyter-console --exclude-module notebook
-##########################################################
-
 import os
 import traceback
 import tkinter as tk
